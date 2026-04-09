@@ -12,19 +12,38 @@ struct SearchView: View {
         NavigationStack {
             VStack {
                 HStack {
-                    TextField("Search products...", text: $searchText)
-                        .textFieldStyle(.roundedBorder)
-                        .onSubmit { performSearch() }
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                            .foregroundColor(.secondary)
+
+                        TextField("Search by name or description", text: $searchText)
+                            .onSubmit { performSearch() }
+
+                        if !searchText.isEmpty {
+                            Button(action: {
+                                searchText = ""
+                                searchResults = []
+                                hasSearched = false
+                            }) {
+                                Image(systemName: "xmark.circle.fill")
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+                    }
+                    .padding(8)
+                    .background(Color(.systemGray6))
+                    .cornerRadius(8)
 
                     Button("Search") {
                         performSearch()
                     }
+                    .buttonStyle(.borderedProminent)
                 }
                 .padding()
 
                 if !hasSearched {
                     Spacer()
-                    Text("Search by name or description")
+                    Text("Enter a product name or description")
                         .foregroundColor(.secondary)
                     Spacer()
                 } else if searchResults.isEmpty {
@@ -34,13 +53,25 @@ struct SearchView: View {
                     Spacer()
                 } else {
                     List(searchResults, id: \.objectID) { product in
-                        VStack(alignment: .leading) {
+                        VStack(alignment: .leading, spacing: 4) {
                             Text(product.productName ?? "Unknown")
                                 .font(.headline)
+
                             Text(product.productDescription ?? "")
                                 .font(.subheadline)
                                 .foregroundColor(.secondary)
+                                .lineLimit(2)
+
+                            HStack {
+                                Text(String(format: "$%.2f", product.productPrice))
+                                    .font(.callout.bold())
+                                Spacer()
+                                Text(product.productProvider ?? "")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
                         }
+                        .padding(.vertical, 2)
                     }
                 }
             }
