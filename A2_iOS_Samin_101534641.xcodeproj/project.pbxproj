@@ -32,6 +32,7 @@
 		4A1D5E1528F4A30000B7C123 /* AddProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductView.swift; sourceTree = "<group>"; };
 		4A1D5E1728F4A30000B7C123 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		4A1D5E1928F4A30000B7C123 /* BauhausStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BauhausStyles.swift; sourceTree = "<group>"; };
+		4A1D5E0928F4A10100B7C124 /* ProductModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ProductModel.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
