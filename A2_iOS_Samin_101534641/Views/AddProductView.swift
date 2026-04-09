@@ -14,27 +14,49 @@ struct AddProductView: View {
 
     var body: some View {
         NavigationStack {
-            Form {
-                Section(header: Text("Product Information")) {
-                    TextField("Product Name", text: $productName)
-                    TextField("Description", text: $productDescription)
-                    TextField("Price", text: $productPrice)
-                        .keyboardType(.decimalPad)
-                    TextField("Provider", text: $productProvider)
-                }
+            VStack(spacing: 0) {
+                BauhausHeader(title: "Add Product")
 
-                Section {
-                    Button("Save Product") {
-                        saveProduct()
-                    }
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 20) {
+                        formField(label: "PRODUCT NAME", text: $productName, placeholder: "Enter product name")
+                        formField(label: "DESCRIPTION", text: $productDescription, placeholder: "Enter description")
+                        priceField
+                        formField(label: "PROVIDER", text: $productProvider, placeholder: "Enter provider name")
 
-                    Button("Clear Form") {
-                        clearForm()
+                        GeometricAccent()
+                            .padding(.vertical, 8)
+
+                        Button(action: saveProduct) {
+                            HStack {
+                                Spacer()
+                                Text("ADD PRODUCT")
+                                    .kerning(2)
+                                Spacer()
+                            }
+                            .bauhausPrimaryButton(color: BauhausTheme.blue)
+                        }
+
+                        Button(action: clearForm) {
+                            HStack {
+                                Spacer()
+                                Text("CLEAR FORM")
+                                    .font(.system(size: 14, weight: .bold))
+                                    .kerning(1)
+                                    .foregroundColor(BauhausTheme.black)
+                                Spacer()
+                            }
+                            .padding(.vertical, 12)
+                            .overlay(
+                                Rectangle()
+                                    .stroke(BauhausTheme.black, lineWidth: 2)
+                            )
+                        }
                     }
-                    .foregroundColor(.secondary)
+                    .padding(16)
                 }
+                .background(BauhausTheme.gray)
             }
-            .navigationTitle("Add Product")
             .alert("Error", isPresented: $showAlert) {
                 Button("OK", role: .cancel) { }
             } message: {
@@ -45,6 +67,31 @@ struct AddProductView: View {
             } message: {
                 Text("Product added successfully.")
             }
+        }
+    }
+
+    private func formField(label: String, text: Binding<String>, placeholder: String) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(label)
+                .font(.system(size: 11, weight: .bold))
+                .foregroundColor(BauhausTheme.black)
+                .kerning(2)
+
+            TextField(placeholder, text: text)
+                .bauhausTextField()
+        }
+    }
+
+    private var priceField: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("PRICE ($)")
+                .font(.system(size: 11, weight: .bold))
+                .foregroundColor(BauhausTheme.black)
+                .kerning(2)
+
+            TextField("0.00", text: $productPrice)
+                .keyboardType(.decimalPad)
+                .bauhausTextField()
         }
     }
 
@@ -101,5 +148,6 @@ struct AddProductView: View {
 struct AddProductView_Previews: PreviewProvider {
     static var previews: some View {
         AddProductView()
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
