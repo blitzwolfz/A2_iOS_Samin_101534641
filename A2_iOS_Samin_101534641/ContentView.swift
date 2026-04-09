@@ -3,31 +3,33 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         TabView {
-            Text("Browse")
+            ProductDetailView()
                 .tabItem {
                     Label("Browse", systemImage: "square.grid.2x2")
                 }
 
-            Text("All Products")
+            ProductListView()
                 .tabItem {
                     Label("All Products", systemImage: "list.bullet")
                 }
 
-            Text("Search")
+            SearchView()
                 .tabItem {
                     Label("Search", systemImage: "magnifyingglass")
                 }
 
-            Text("Add")
+            AddProductView()
                 .tabItem {
                     Label("Add", systemImage: "plus.circle")
                 }
         }
+        .tint(BauhausTheme.red)
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
